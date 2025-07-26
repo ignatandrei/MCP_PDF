@@ -60,7 +60,7 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture
     }
     private async Task When_I_Convert_ToHtml()
     {
-        htmlResult=  await ArrayToPDF.ConvertArrayToHTML(arrToTest);
+        htmlResult=  await ArrayToAny.ConvertArrayToHTML(arrToTest);
         await File.WriteAllTextAsync(@"D:\a.html", htmlResult);
         return ;
     }

@@ -1,6 +1,8 @@
 ﻿using MCP_PDF.Data;
+using ModelContextProtocol.Server;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -9,15 +11,22 @@ using System.Threading.Tasks;
 
 namespace MCP_PDF.Tools;
 
-public class ArrayToPDF : IAsyncDisposable
+public class ArrayToAny : IAsyncDisposable
 {
     private readonly PdfGenerator _pdfGenerator;
     private bool _disposed = false;
 
-    public ArrayToPDF()
+    public ArrayToAny()
     {
         _pdfGenerator = new PdfGenerator();
     }
+    [McpServerTool]
+    [Description("Generates a html from a json array serialized as string")]
+    public async Task<string> ConvertJsonArrayToHTML(string JsonDataArray)
+    {
+        return await ConvertArrayToHTML(JsonDataArray);
+    }
+
     public static async Task<string> ConvertArrayToHTML(string JsonDataArray)
     {
         // Parse the JSON array
@@ -60,6 +69,8 @@ public class ArrayToPDF : IAsyncDisposable
         return htmlContent.Trim();
 
     }
+    [McpServerTool]
+    [Description("Generates a pdf from a json array serialized as string")]
     public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
     {
         var htmlContent = await ConvertArrayToHTML(JsonDataArray);

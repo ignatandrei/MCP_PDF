@@ -1,3 +1,4 @@
+using MCP_PDF.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ builder.Logging.AddConsole(o => o.LogToStandardErrorThreshold = LogLevel.Trace);
 builder.Services
     .AddMcpServer()
     .WithStdioServerTransport()
-    .WithTools<HtmlToPDF>();
+    .WithTools<HtmlToPDF>()
+    .WithTools<ArrayToAny>();
 
 await builder.Build().RunAsync();
