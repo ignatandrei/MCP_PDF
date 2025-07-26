@@ -5,7 +5,7 @@ public class ArrayToAny : IAsyncDisposable
     private readonly PdfGenerator _pdfGenerator;
     private bool _disposed = false;
 
-    public ArrayToAny()
+    public ArrayToAny() 
     {
         _pdfGenerator = new PdfGenerator();
     }

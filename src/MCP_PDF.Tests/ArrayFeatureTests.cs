@@ -68,8 +68,33 @@ public partial class ArrayFeatureTests : FeatureFixture, IAsyncDisposable
         );
     }
 
+    [Test]
+    [Scenario]
+    [TestCase(
+"""
+[
+{"Name":"Ignat","Surname":"Andrei","Email":"ignatandrei@yahoo.com"},
+{"Name":"Adam","Surname":"Kowalski","Email":"adam.kowalski@notExisting.com"},
+]
+""",
+"""
+NR,Name,Surname,Email
+1,Ignat,Andrei,ignatandrei@yahoo.com
+2,Adam,Kowalski,adam.kowalski@notExisting.com
+"""
+        )]
+    public async Task VerifyArrayToCSV(string jsonArray, string csvResult)
+    {
+        await Runner.RunScenarioAsync(
+            _ => Given_I_have_an_json_array_as_string(jsonArray),
+            _ => When_I_Convert_ToCSV(),
+            _ => Then_the_csv_result_should_be(csvResult)
+        );
+    }
+
     string arrToTest=string.Empty;
     string htmlResult=string.Empty;
+    string csvResult=string.Empty;
     byte[] pdfResult = Array.Empty<byte>();
     ArrayToAny? arrayToAny;
 
@@ -106,6 +131,13 @@ public partial class ArrayFeatureTests : FeatureFixture, IAsyncDisposable
         return;
     }
 
+    private async Task When_I_Convert_ToCSV()
+    {
+        csvResult = await arrayToAny!.ConvertArrayToCSV(arrToTest);
+        await File.WriteAllTextAsync(@"D:\a.csv", csvResult);
+        return;
+    }
+
     private Task Then_the_result_should_be(string html)
     {
         html = html.Replace(" ","").Replace("\r", "").Replace("\n", "");
@@ -126,6 +158,14 @@ public partial class ArrayFeatureTests : FeatureFixture, IAsyncDisposable
         
         // Verify PDF contains some expected content markers
         
+        return Task.CompletedTask;
+    }
+
+    private Task Then_the_csv_result_should_be(string csv)
+    {
+        csv = csv.Replace("\r", "").Replace("\n", "");
+        csvResult = csvResult.Replace("\r", "").Replace("\n", "");
+        csvResult.ShouldBe(csv);
         return Task.CompletedTask;
     }
 

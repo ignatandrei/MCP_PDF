@@ -13,10 +13,12 @@
     var jsonObject = Model.JsonArray[i];
     string row = (i + 1) + "," +
                 string.Join(",", Model
-                .Properties
-                .Select(it => GetJsonValue(jsonObject.GetProperty(value))
+                    .Properties
+                    .Select(it => GetJsonValue(jsonObject.GetProperty(it)))
                 );
-@row
+<text>@row
+</text>
+
 }
 
 @functions{
