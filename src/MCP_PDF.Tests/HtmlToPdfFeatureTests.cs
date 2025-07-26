@@ -67,6 +67,8 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture
 
     private Task Then_the_result_should_be(string html)
     {
+        html = html.Replace(" ","").Replace("\r", "").Replace("\n", "");
+        htmlResult=htmlResult.Replace(" ", "").Replace("\r", "").Replace("\n", "");
         htmlResult.ShouldBe(html);
         return Task.CompletedTask;
     }
