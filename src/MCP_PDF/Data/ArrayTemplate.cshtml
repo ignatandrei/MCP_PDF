@@ -5,14 +5,13 @@
     
     var nr = Model.JsonArray.Length;
 }
-<table>
+<table border="1">
     <thead>
-        <th>
-            <td>Nr</td>
-        @foreach (var item in Model.Properties)
+        <tr>
+            <th>Nr</th>        @foreach (var item in Model.Properties)
         {
 
-            <td>@item</td>
+            <th>@item</th>
            
         }
     </thead>

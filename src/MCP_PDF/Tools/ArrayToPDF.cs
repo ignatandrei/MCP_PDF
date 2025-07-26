@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MCP_PDF.Tools;
 
-internal class ArrayToPDF : IAsyncDisposable
+public class ArrayToPDF : IAsyncDisposable
 {
     private readonly PdfGenerator _pdfGenerator;
     private bool _disposed = false;
@@ -18,10 +18,14 @@ internal class ArrayToPDF : IAsyncDisposable
     {
         _pdfGenerator = new PdfGenerator();
     }
-    public async Task<string> ConvertArrayToHTML(string JsonDataArray)
+    public static async Task<string> ConvertArrayToHTML(string JsonDataArray)
     {
         // Parse the JSON array
-        var jsonDocument = JsonDocument.Parse(JsonDataArray);
+        var options = new JsonDocumentOptions()
+        {
+            AllowTrailingCommas = true,
+        };
+        var jsonDocument = JsonDocument.Parse(JsonDataArray,options);
         var jsonArray = jsonDocument.RootElement;
 
         List<string> firstItemProperties = [];
@@ -53,7 +57,7 @@ internal class ArrayToPDF : IAsyncDisposable
 
         // Generate HTML content from the template
         string htmlContent = await arrayTemplate.RenderAsync();
-        return htmlContent;
+        return htmlContent.Trim();
 
     }
     public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
