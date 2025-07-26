@@ -15,15 +15,13 @@ public class ArrayToAny : IAsyncDisposable
     {
         return await ConvertArrayToHTML(JsonDataArray);
     }
-
-    public static async Task<string> ConvertArrayToHTML([Description("array serialized  as json")]string JsonDataArray)
+    private ArrayData ConvertFromJsonArray(string JsonDataArray)
     {
-        // Parse the JSON array
         var options = new JsonDocumentOptions()
         {
             AllowTrailingCommas = true,
         };
-        var jsonDocument = JsonDocument.Parse(JsonDataArray,options);
+        var jsonDocument = JsonDocument.Parse(JsonDataArray, options);
         var jsonArray = jsonDocument.RootElement;
 
         List<string> firstItemProperties = [];
@@ -51,6 +49,12 @@ public class ArrayToAny : IAsyncDisposable
             }
         }
         ArrayData arrayData = new(firstItemProperties.ToArray(), jsonArray.EnumerateArray().ToArray());
+        return arrayData;
+    }
+    public async Task<string> ConvertArrayToHTML([Description("array serialized  as json")]string JsonDataArray)
+    {
+        
+        ArrayData arrayData = ConvertFromJsonArray(JsonDataArray);
         ArrayTemplate arrayTemplate = new(arrayData);
 
         // Generate HTML content from the template
@@ -67,6 +71,15 @@ public class ArrayToAny : IAsyncDisposable
         byte[] pdfBytes = await _pdfGenerator.GeneratePdfFromHtml(htmlContent);
         
         return pdfBytes;
+    }
+    [McpServerTool]
+    [Description("Generates a csv from a json array serialized as string")]
+    public async Task<string> ConvertArrayToCSV(string JsonDataArray)
+    {
+        var data = ConvertFromJsonArray(JsonDataArray);
+        // Convert HTML to PDF using the shared PDF generator
+        ArrayCSVTemplate arrayCSVTemplate = new(data);
+        return await arrayCSVTemplate.RenderAsync();
     }
 
     public async ValueTask DisposeAsync()

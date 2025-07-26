@@ -5,7 +5,7 @@ namespace MCP_PDF.Tests;
 @"As a developer using the MCP PDF server
 I want to test the PDF generation functionality
 So that I can ensure the system works correctly")]
-public partial class HtmlToPdfFeatureTests : FeatureFixture, IAsyncDisposable
+public partial class ArrayFeatureTests : FeatureFixture, IAsyncDisposable
 {
     [Test]
     [Scenario]
@@ -95,7 +95,7 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture, IAsyncDisposable
     }
     private async Task When_I_Convert_ToHtml()
     {
-        htmlResult=  await ArrayToAny.ConvertArrayToHTML(arrToTest);
+        htmlResult=  await (new ArrayToAny()).ConvertArrayToHTML(arrToTest);
         return ;
     }
 
