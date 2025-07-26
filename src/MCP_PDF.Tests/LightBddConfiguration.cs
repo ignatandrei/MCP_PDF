@@ -1,7 +1,3 @@
-using LightBDD.Core.Configuration;
-using LightBDD.Framework.Configuration;
-using LightBDD.Framework.Reporting.Formatters;
-using LightBDD.NUnit3;
 using MCP_PDF.Tests;
 
 //[assembly: LightBddScope]

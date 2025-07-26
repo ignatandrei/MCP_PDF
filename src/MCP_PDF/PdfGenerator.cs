@@ -1,5 +1,3 @@
-using Microsoft.Playwright;
-
 namespace MCP_PDF.Tools;
 
 /// <summary>

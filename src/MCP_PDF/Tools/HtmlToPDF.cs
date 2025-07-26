@@ -1,10 +1,3 @@
-using MCP_PDF.Tools;
-using Microsoft.Playwright;
-using ModelContextProtocol.Server;
-using System.ComponentModel;
-using System.Text;
-using System.Text.Unicode;
-
 /// <summary>
 /// HTML to PDF converter using Playwright
 /// </summary>

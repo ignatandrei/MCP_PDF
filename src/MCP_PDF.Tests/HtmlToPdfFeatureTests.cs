@@ -1,5 +1,3 @@
-using MCP_PDF.Tools;
-
 namespace MCP_PDF.Tests;
 
 [TestFixture]
