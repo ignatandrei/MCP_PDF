@@ -11,3 +11,4 @@ global using Microsoft.Playwright;
 global using ModelContextProtocol.Server;
 global using MCP_PDF.Data;
 global using MCP_PDF.Tools;
+global using System.Runtime.CompilerServices;

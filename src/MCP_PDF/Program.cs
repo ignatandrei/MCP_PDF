@@ -1,3 +1,4 @@
+
 var builder = Host.CreateApplicationBuilder(args);
 
 // Configure all logs to go to stderr (stdout is used for the MCP protocol messages).
@@ -11,3 +12,16 @@ builder.Services
     .WithTools<ArrayToAny>();
 
 await builder.Build().RunAsync();
+
+partial class Program
+{
+    [ModuleInitializer]
+    public static void Initialize()
+    {
+        var exitCode = Microsoft.Playwright.Program.Main(new[] { "install" });
+        if (exitCode != 0)
+        {
+            throw new Exception($"Playwright exited with code {exitCode}");
+        }
+    }
+}

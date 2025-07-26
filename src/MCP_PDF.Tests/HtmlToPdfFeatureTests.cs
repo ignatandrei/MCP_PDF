@@ -5,7 +5,7 @@ namespace MCP_PDF.Tests;
 @"As a developer using the MCP PDF server
 I want to test the PDF generation functionality
 So that I can ensure the system works correctly")]
-public partial class HtmlToPdfFeatureTests : FeatureFixture
+public partial class HtmlToPdfFeatureTests : FeatureFixture, IAsyncDisposable
 {
     [Test]
     [Scenario]
@@ -41,7 +41,7 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture
 </table>
 """
         )]
-    public async Task VerifyArrayToPDF(string jsonArray,string htmlResult)
+    public async Task VerifyArrayToHTML(string jsonArray,string htmlResult)
     {
         await Runner.RunScenarioAsync(
             _ => Given_I_have_an_json_array_as_string(jsonArray),
@@ -49,8 +49,45 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture
             _ => Then_the_result_should_be(htmlResult)
         );
     }
+
+    [Test]
+    [Scenario]
+    [TestCase(
+"""
+[
+{"Name":"Ignat","Surname":"Andrei","Email":"ignatandrei@yahoo.com"},
+{"Name":"Adam","Surname":"Kowalski","Email":"adam.kowalski@notExisting.com"},
+]
+""")]
+    public async Task VerifyArrayToPDF(string jsonArray)
+    {
+        await Runner.RunScenarioAsync(
+            _ => Given_I_have_an_json_array_as_string(jsonArray),
+            _ => When_I_Convert_ToPDF(),
+            _ => Then_the_pdf_result_should_be_valid()
+        );
+    }
+
     string arrToTest=string.Empty;
     string htmlResult=string.Empty;
+    byte[] pdfResult = Array.Empty<byte>();
+    ArrayToAny? arrayToAny;
+
+    [OneTimeSetUp]
+    public void Setup()
+    {
+        arrayToAny = new ArrayToAny();
+    }
+
+    [OneTimeTearDown]
+    public async Task TearDown()
+    {
+        if (arrayToAny != null)
+        {
+            await arrayToAny.DisposeAsync();
+        }
+    }
+
     private Task Given_I_have_an_json_array_as_string(string arr)
     {
         arrToTest = arr;
@@ -59,8 +96,13 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture
     private async Task When_I_Convert_ToHtml()
     {
         htmlResult=  await ArrayToAny.ConvertArrayToHTML(arrToTest);
-        await File.WriteAllTextAsync(@"D:\a.html", htmlResult);
         return ;
+    }
+
+    private async Task When_I_Convert_ToPDF()
+    {
+        pdfResult = await arrayToAny!.ConvertArrayToPDF(arrToTest);
+        return;
     }
 
     private Task Then_the_result_should_be(string html)
@@ -69,5 +111,29 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture
         htmlResult=htmlResult.Replace(" ", "").Replace("\r", "").Replace("\n", "");
         htmlResult.ShouldBe(html);
         return Task.CompletedTask;
+    }
+
+    private Task Then_the_pdf_result_should_be_valid()
+    {
+        // Verify PDF is not null or empty
+        pdfResult.ShouldNotBeNull();
+        pdfResult.Length.ShouldBeGreaterThan(0);
+        
+        // Verify PDF header (PDFs start with %PDF-)
+        var pdfHeader = System.Text.Encoding.ASCII.GetString(pdfResult.Take(5).ToArray());
+        pdfHeader.ShouldBe("%PDF-");
+        
+        // Verify PDF contains some expected content markers
+        
+        return Task.CompletedTask;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (arrayToAny != null)
+        {
+            await arrayToAny.DisposeAsync();
+        }
+        GC.SuppressFinalize(this);
     }
 }
