@@ -8,9 +8,17 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace MCP_PDF.Tools;
-internal class ArrayToPDF
+
+internal class ArrayToPDF : IAsyncDisposable
 {
-    public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
+    private readonly PdfGenerator _pdfGenerator;
+    private bool _disposed = false;
+
+    public ArrayToPDF()
+    {
+        _pdfGenerator = new PdfGenerator();
+    }
+    public async Task<string> ConvertArrayToHTML(string JsonDataArray)
     {
         // Parse the JSON array
         var jsonDocument = JsonDocument.Parse(JsonDataArray);
@@ -18,7 +26,7 @@ internal class ArrayToPDF
 
         List<string> firstItemProperties = [];
         var isArray = jsonArray.ValueKind == JsonValueKind.Array;
-        if(!isArray)
+        if (!isArray)
         {
             throw new ArgumentException("Provided JSON data is not an array.");
         }
@@ -27,28 +35,51 @@ internal class ArrayToPDF
         {
             throw new ArgumentException("Provided JSON array is empty.");
         }
-        
+
         {
             var firstItem = jsonArray[0];
-            
+
             // Extract all properties from the first item
             if (firstItem.ValueKind == JsonValueKind.Object)
             {
                 foreach (var property in firstItem.EnumerateObject())
                 {
-                    firstItemProperties.Add(property.Name) ;
+                    firstItemProperties.Add(property.Name);
                 }
             }
         }
         ArrayData arrayData = new(firstItemProperties.ToArray(), jsonArray.EnumerateArray().ToArray());
         ArrayTemplate arrayTemplate = new(arrayData);
 
+        // Generate HTML content from the template
+        string htmlContent = await arrayTemplate.RenderAsync();
+        return htmlContent;
 
-        // Here you would convert 'content' to PDF bytes
-        byte[] pdfBytes = Encoding.UTF8.GetBytes("Andrei"); // Placeholder conversion
+    }
+    public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
+    {
+        var htmlContent = await ConvertArrayToHTML(JsonDataArray);
+        // Convert HTML to PDF using the shared PDF generator
+        byte[] pdfBytes = await _pdfGenerator.GeneratePdfFromHtml(htmlContent);
         
-        return await Task.FromResult(pdfBytes);
+        return pdfBytes;
     }
 
-    
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore();
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual async ValueTask DisposeAsyncCore()
+    {
+        if (!_disposed)
+        {
+            if (_pdfGenerator != null)
+            {
+                await _pdfGenerator.DisposeAsync();
+            }
+            _disposed = true;
+        }
+    }
 }

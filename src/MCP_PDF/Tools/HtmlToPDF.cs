@@ -1,62 +1,28 @@
+using MCP_PDF.Tools;
+using Microsoft.Playwright;
+using ModelContextProtocol.Server;
 using System.ComponentModel;
 using System.Text;
 using System.Text.Unicode;
-using ModelContextProtocol.Server;
-using Microsoft.Playwright;
 
 /// <summary>
 /// HTML to PDF converter using Playwright
 /// </summary>
 internal class HtmlToPDF : IAsyncDisposable
 {
-    private IBrowser? _browser;
-    private IPlaywright? _playwright;
+    private readonly PdfGenerator _pdfGenerator;
     private bool _disposed = false;
-
+    public HtmlToPDF()
+    {
+        _pdfGenerator = new PdfGenerator();
+    }
     [McpServerTool]
     [Description("Generates a pdf from a html template")]
     public async Task<byte[]> GetPDF(string htmlTemplate)
     {
-        await EnsureBrowserInitialized();
-        
-        var page = await _browser!.NewPageAsync();
-        try
-        {
-            await page.SetContentAsync(htmlTemplate);
-            
-            // Generate PDF with standard options
-            var pdfBytes = await page.PdfAsync(new PagePdfOptions
-            {
-                Format = "A4",
-                PrintBackground = true,
-                Margin = new Margin
-                {
-                    Top = "1cm",
-                    Right = "1cm",
-                    Bottom = "1cm",
-                    Left = "1cm"
-                }
-            });
-            
-            return pdfBytes;
-        }
-        finally
-        {
-            await page.CloseAsync();
-        }
+        return await _pdfGenerator.GeneratePdfFromHtml(htmlTemplate);
     }
 
-    private async Task EnsureBrowserInitialized()
-    {
-        if (_browser == null)
-        {
-            _playwright = await Playwright.CreateAsync();
-            _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            {
-                Headless = true
-            });
-        }
-    }
 
     public async ValueTask DisposeAsync()
     {
@@ -68,12 +34,10 @@ internal class HtmlToPDF : IAsyncDisposable
     {
         if (!_disposed)
         {
-            if (_browser != null)
+            if (_pdfGenerator != null)
             {
-                await _browser.DisposeAsync();
+                await _pdfGenerator.DisposeAsync();
             }
-            
-            _playwright?.Dispose();
             _disposed = true;
         }
     }
