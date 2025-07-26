@@ -11,12 +11,12 @@ public class ArrayToAny : IAsyncDisposable
     }
     [McpServerTool]
     [Description("Generates a html from a json array serialized as string")]
-    public async Task<string> ConvertJsonArrayToHTML(string JsonDataArray)
+    public async Task<string> ConvertJsonArrayToHTML([Description("array serialized  as json")] string JsonDataArray)
     {
         return await ConvertArrayToHTML(JsonDataArray);
     }
 
-    public static async Task<string> ConvertArrayToHTML(string JsonDataArray)
+    public static async Task<string> ConvertArrayToHTML([Description("array serialized  as json")string JsonDataArray)
     {
         // Parse the JSON array
         var options = new JsonDocumentOptions()

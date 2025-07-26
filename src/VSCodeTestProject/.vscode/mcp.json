@@ -1,6 +1,6 @@
 {
   "servers": {
-    "MCP_PDF": {
+    "MCP_Array_Any": {
       "type": "stdio",
       "command": "dotnet",
       "args": [

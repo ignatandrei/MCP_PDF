@@ -102,6 +102,7 @@ public partial class HtmlToPdfFeatureTests : FeatureFixture, IAsyncDisposable
     private async Task When_I_Convert_ToPDF()
     {
         pdfResult = await arrayToAny!.ConvertArrayToPDF(arrToTest);
+        //await File.WriteAllBytesAsync(@"D:\test.pdf", pdfResult);
         return;
     }
 
