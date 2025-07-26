@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "MCP_PDF": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "../MCP_PDF/MCP_PDF.csproj"
+      ],
+      "env": {
+      }
+    }
+  }
+}
