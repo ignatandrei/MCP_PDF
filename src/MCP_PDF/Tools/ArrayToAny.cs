@@ -16,7 +16,7 @@ public class ArrayToAny : IAsyncDisposable
         return await ConvertArrayToHTML(JsonDataArray);
     }
 
-    public static async Task<string> ConvertArrayToHTML([Description("array serialized  as json")string JsonDataArray)
+    public static async Task<string> ConvertArrayToHTML([Description("array serialized  as json")]string JsonDataArray)
     {
         // Parse the JSON array
         var options = new JsonDocumentOptions()
