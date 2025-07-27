@@ -17,3 +17,11 @@ Please convert this json into pdf : [
 {"firstName":"Peter", "lastName":"Jones"}s
 ] by saving to result.pdf in the current folder 
 
+GitHub Copilot 3:
+
+Use MCP file system and  to find the current folder . 
+
+Please fetch data from 
+https://jsonplaceholder.typicode.com/posts
+
+and save to posts.pdf in the current folder

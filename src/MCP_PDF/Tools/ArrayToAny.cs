@@ -96,7 +96,7 @@ public class ArrayToAny : IAsyncDisposable
     [Description("Generates a pdf from a json array serialized string and save to pdfFileName")]
     public async Task SaveArrayToPDF(string pdfFileName,string JsonDataArray)
     {
-        _logger.LogInformation($"Converting JSON array to {pdfFileName}");
+        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to {pdfFileName}");
         try
         {
             var pdfBytes = await ConvertArrayToPDF(JsonDataArray);
@@ -114,7 +114,7 @@ public class ArrayToAny : IAsyncDisposable
     //[Description("Generates a pdf from a json array serialized string and returns it as byte array ")]
     public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
     {
-        _logger.LogInformation("Converting JSON array to PDF ");
+        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to PDF ");
         try
         {
             var htmlContent = await ConvertArrayToHTML(JsonDataArray);
@@ -136,7 +136,7 @@ public class ArrayToAny : IAsyncDisposable
     [Description("Generates a csv from a json array serialized as string")]
     public async Task<string> ConvertArrayToCSV(string JsonDataArray)
     {
-        _logger.LogInformation("Converting JSON array to CSV");
+        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
         try
         {
             var data = ConvertFromJsonArray(JsonDataArray);
