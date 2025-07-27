@@ -43,8 +43,7 @@ jobs:
     - name: Pack MCP_PDF
       run: |
         cd src
-        cd MCP_PDF
-        cd MCP_PDF
+        cd MCP_PDF        
         dotnet pack --configuration Release --output ../nupkg
 
     - name: Upload NuGet package artifact
