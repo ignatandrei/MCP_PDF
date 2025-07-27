@@ -4,9 +4,9 @@
   "name": "io.github.ignatandrei/MCPArray2Any",
   "packages": [
     {
-      "registry_name": "nuget",
+    "registry_name": "nuget",
       "name": "MCPArray2Any",
-      "version": "0.1.0",
+      "version": "8.2025.727.1521",
       "package_arguments": [],
       "environment_variables": []
     }
@@ -16,6 +16,6 @@
     "source": "github"
   },
   "version_detail": {
-    "version": "0.1.0"
+    "version": "8.2025.727.1521"
   }
 }

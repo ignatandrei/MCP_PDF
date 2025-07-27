@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -13,16 +13,19 @@
 
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageId>MCPArray2Any</PackageId>
-    <PackageVersion>0.1.0</PackageVersion>
+	 
+    <PackageVersion>8.2025.727.1521</PackageVersion>
     <PackageTags>AI; MCP; server; stdio; Array to any</PackageTags>
     <Description>Convert an array to html , pdf ...</Description>
   </PropertyGroup>
 
   <!-- Include additional files for browsing the MCP server. -->
   <ItemGroup>
-    <None Include=".mcp\server.json" Pack="true" PackagePath="/.mcp/" />
-    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../README.md" Link="README.md" Pack="true" PackagePath="/" />
+	  <None Include="../../LICENSE" Link="LICENSE" Pack="true" PackagePath="/" />
+	  <None Include=".mcp\server.json" Pack="true" PackagePath="/.mcp/" />
   </ItemGroup>
 
   <ItemGroup>
