@@ -6,6 +6,8 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ "main" ]
 
@@ -37,3 +39,16 @@ jobs:
         cd src 
         cd MCP_PDF.Tests
         dotnet test --no-build --verbosity normal
+
+    - name: Pack MCP_PDF
+      run: |
+        cd src/MCP_PDF
+        dotnet pack --configuration Release --output ../../nupkg
+
+    - name: Upload NuGet package artifact
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: actions/upload-artifact@v4
+      with:
+        name: MCP_PDF_nuget
+        path: src/nupkg/*.nupkg
+        retention-days: 1
