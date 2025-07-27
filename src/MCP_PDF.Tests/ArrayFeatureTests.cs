@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace MCP_PDF.Tests;
@@ -99,7 +98,7 @@ NR,Name,Surname,Email
     string arrToTest=string.Empty;
     string htmlResult=string.Empty;
     string csvResult=string.Empty;
-    byte[] pdfResult = Array.Empty<byte>();
+    byte[] pdfResult = []; 
     ArrayToAny? arrayToAny;
     private ILogger<ArrayToAny> _logger;
 

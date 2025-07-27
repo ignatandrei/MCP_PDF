@@ -9,8 +9,25 @@
         "../MCP_PDF/MCP_PDF.csproj"
       ],
       "env": {
-        "logMCPFile": "D:\\mcp.log",
+        "logMCPFile": "D:\\mcp-pdf-.log",
       }
+    },
+     "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}",
+        "${workspaceFolder}/output"
+        
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
     }
   }
 }

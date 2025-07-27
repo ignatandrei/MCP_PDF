@@ -9,8 +9,11 @@ Please convert this json into html : [
 
 GitHub Copilot2:
 
+Use MCP file system and  to find the current folder . 
+
 Please convert this json into pdf : [
 {"firstName":"John", "lastName":"Doe"},
 {"firstName":"Anna", "lastName":"Smith"},
 {"firstName":"Peter", "lastName":"Jones"}s
-] and save as a file . If the result is base 64 ,  store in a  file and then convert to byte.
+] by saving to result.pdf in the current folder 
+

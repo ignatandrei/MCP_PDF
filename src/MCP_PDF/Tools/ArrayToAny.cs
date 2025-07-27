@@ -92,19 +92,37 @@ public class ArrayToAny : IAsyncDisposable
         _logger.LogDebug("HTML template rendered successfully. Length: {HtmlLength} characters", htmlContent.Length);
         return htmlContent.Trim();
     }
-
     [McpServerTool]
-    [Description("Generates a pdf from a json array serialized as string")]
+    [Description("Generates a pdf from a json array serialized string and save to pdfFileName")]
+    public async Task SaveArrayToPDF(string pdfFileName,string JsonDataArray)
+    {
+        _logger.LogInformation($"Converting JSON array to {pdfFileName}");
+        try
+        {
+            var pdfBytes = await ConvertArrayToPDF(JsonDataArray);
+            await File.WriteAllBytesAsync(pdfFileName, pdfBytes);
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Failed to save JSON array to {pdfFileName}");
+            throw;
+        }
+    }
+
+    //[McpServerTool]
+    //[Description("Generates a pdf from a json array serialized string and returns it as byte array ")]
     public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
     {
-        _logger.LogInformation("Converting JSON array to PDF");
+        _logger.LogInformation("Converting JSON array to PDF ");
         try
         {
             var htmlContent = await ConvertArrayToHTML(JsonDataArray);
             // Convert HTML to PDF using the shared PDF generator
             byte[] pdfBytes = await _pdfGenerator.GeneratePdfFromHtml(htmlContent);
-            
-            _logger.LogInformation("JSON array to PDF conversion completed successfully. PDF size: {PdfSize} bytes", pdfBytes.Length);
+
+
+            _logger.LogInformation($"PDF size: {pdfBytes.Length} bytes");
             return pdfBytes;
         }
         catch (Exception ex)
