@@ -16,7 +16,7 @@
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageId>MCPArray2Any</PackageId>
 	 
-    <PackageVersion>8.2025.727.1559</PackageVersion>
+    <PackageVersion>10.2025.727.1559</PackageVersion>
     <PackageTags>AI; MCP; server; stdio; Array to any</PackageTags>
     <Description>Convert an array to html , pdf ...</Description>
   </PropertyGroup>
