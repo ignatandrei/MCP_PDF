@@ -3,20 +3,38 @@
 public class ArrayToAny : IAsyncDisposable
 {
     private readonly PdfGenerator _pdfGenerator;
+    private readonly ILogger<ArrayToAny> _logger;
     private bool _disposed = false;
 
-    public ArrayToAny() 
+    public ArrayToAny(ILogger<ArrayToAny> logger) 
     {
-        _pdfGenerator = new PdfGenerator();
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _pdfGenerator = new PdfGenerator(_logger);
+        _logger.LogDebug("ArrayToAny service initialized");
     }
+
     [McpServerTool]
     [Description("Generates a html from a json array serialized as string")]
     public async Task<string> ConvertJsonArrayToHTML([Description("array serialized  as json")] string JsonDataArray)
     {
-        return await ConvertArrayToHTML(JsonDataArray);
+        _logger.LogInformation("Converting JSON array to HTML");
+        try
+        {
+            var result = await ConvertArrayToHTML(JsonDataArray);
+            _logger.LogInformation("JSON array to HTML conversion completed successfully");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to convert JSON array to HTML");
+            throw;
+        }
     }
+
     private ArrayData ConvertFromJsonArray(string JsonDataArray)
     {
+        _logger.LogDebug("Parsing JSON array data");
+        
         var options = new JsonDocumentOptions()
         {
             AllowTrailingCommas = true,
@@ -28,11 +46,17 @@ public class ArrayToAny : IAsyncDisposable
         var isArray = jsonArray.ValueKind == JsonValueKind.Array;
         if (!isArray)
         {
+            _logger.LogError("Provided JSON data is not an array. ValueKind: {ValueKind}", jsonArray.ValueKind);
             throw new ArgumentException("Provided JSON data is not an array.");
         }
+
+        var arrayLength = jsonArray.GetArrayLength();
+        _logger.LogDebug("JSON array contains {ArrayLength} items", arrayLength);
+        
         // Check if the array has at least one element
-        if (!(jsonArray.GetArrayLength() > 0))
+        if (arrayLength == 0)
         {
+            _logger.LogError("Provided JSON array is empty");
             throw new ArgumentException("Provided JSON array is empty.");
         }
 
@@ -46,40 +70,70 @@ public class ArrayToAny : IAsyncDisposable
                 {
                     firstItemProperties.Add(property.Name);
                 }
+                _logger.LogDebug("Extracted {PropertyCount} properties from first item: {Properties}", 
+                    firstItemProperties.Count, firstItemProperties);
             }
         }
         ArrayData arrayData = new(firstItemProperties.ToArray(), jsonArray.EnumerateArray().ToArray());
         return arrayData;
     }
+
     public async Task<string> ConvertArrayToHTML([Description("array serialized  as json")]string JsonDataArray)
     {
+        _logger.LogDebug("Starting array to HTML conversion");
         
         ArrayData arrayData = ConvertFromJsonArray(JsonDataArray);
         ArrayTemplate arrayTemplate = new(arrayData);
 
         // Generate HTML content from the template
+        _logger.LogDebug("Rendering HTML template");
         string htmlContent = await arrayTemplate.RenderAsync();
+        
+        _logger.LogDebug("HTML template rendered successfully. Length: {HtmlLength} characters", htmlContent.Length);
         return htmlContent.Trim();
-
     }
+
     [McpServerTool]
     [Description("Generates a pdf from a json array serialized as string")]
     public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
     {
-        var htmlContent = await ConvertArrayToHTML(JsonDataArray);
-        // Convert HTML to PDF using the shared PDF generator
-        byte[] pdfBytes = await _pdfGenerator.GeneratePdfFromHtml(htmlContent);
-        
-        return pdfBytes;
+        _logger.LogInformation("Converting JSON array to PDF");
+        try
+        {
+            var htmlContent = await ConvertArrayToHTML(JsonDataArray);
+            // Convert HTML to PDF using the shared PDF generator
+            byte[] pdfBytes = await _pdfGenerator.GeneratePdfFromHtml(htmlContent);
+            
+            _logger.LogInformation("JSON array to PDF conversion completed successfully. PDF size: {PdfSize} bytes", pdfBytes.Length);
+            return pdfBytes;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to convert JSON array to PDF");
+            throw;
+        }
     }
+
     [McpServerTool]
     [Description("Generates a csv from a json array serialized as string")]
     public async Task<string> ConvertArrayToCSV(string JsonDataArray)
     {
-        var data = ConvertFromJsonArray(JsonDataArray);
-        // Convert HTML to PDF using the shared PDF generator
-        ArrayCSVTemplate arrayCSVTemplate = new(data);
-        return await arrayCSVTemplate.RenderAsync();
+        _logger.LogInformation("Converting JSON array to CSV");
+        try
+        {
+            var data = ConvertFromJsonArray(JsonDataArray);
+            // Convert HTML to PDF using the shared PDF generator
+            ArrayCSVTemplate arrayCSVTemplate = new(data);
+            var result = await arrayCSVTemplate.RenderAsync();
+            
+            _logger.LogInformation("JSON array to CSV conversion completed successfully. CSV length: {CsvLength} characters", result.Length);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to convert JSON array to CSV");
+            throw;
+        }
     }
 
     public async ValueTask DisposeAsync()
@@ -92,11 +146,13 @@ public class ArrayToAny : IAsyncDisposable
     {
         if (!_disposed)
         {
+            _logger.LogDebug("Disposing ArrayToAny service");
             if (_pdfGenerator != null)
             {
                 await _pdfGenerator.DisposeAsync();
             }
             _disposed = true;
+            _logger.LogDebug("ArrayToAny service disposed");
         }
     }
 }

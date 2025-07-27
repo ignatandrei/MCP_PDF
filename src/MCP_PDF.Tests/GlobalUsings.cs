@@ -8,3 +8,4 @@ global using LightBDD.Framework.Configuration;
 global using LightBDD.Framework.Reporting.Formatters;
 global using MCP_PDF.Tests;
 global using MCP_PDF.Tools;
+global using Microsoft.Extensions.Logging;

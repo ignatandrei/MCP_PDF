@@ -12,3 +12,5 @@ global using ModelContextProtocol.Server;
 global using MCP_PDF.Data;
 global using MCP_PDF.Tools;
 global using System.Runtime.CompilerServices;
+global using Serilog;
+global using Serilog.Events;
