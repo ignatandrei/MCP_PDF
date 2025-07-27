@@ -6,7 +6,7 @@
     {
     "registry_name": "nuget",
       "name": "MCPArray2Any",
-      "version": "8.2025.727.1521",
+      "version": "8.2025.727.1559",
       "package_arguments": [],
       "environment_variables": []
     }
@@ -16,6 +16,6 @@
     "source": "github"
   },
   "version_detail": {
-    "version": "8.2025.727.1521"
+    "version": "8.2025.727.1559"
   }
 }
