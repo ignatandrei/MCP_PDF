@@ -9,6 +9,7 @@
         "../MCP_PDF/MCP_PDF.csproj"
       ],
       "env": {
+        "logMCPFile": "D:\\mcp.log",
       }
     }
   }

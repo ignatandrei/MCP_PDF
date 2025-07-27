@@ -13,4 +13,4 @@ Please convert this json into pdf : [
 {"firstName":"John", "lastName":"Doe"},
 {"firstName":"Anna", "lastName":"Smith"},
 {"firstName":"Peter", "lastName":"Jones"}s
-] and store in a local file
+] and save as a file . If the result is base 64 ,  store in a  file and then convert to byte.
