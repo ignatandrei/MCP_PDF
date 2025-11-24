@@ -137,7 +137,7 @@ NR,Name,Surname,Email
 
     private async Task When_I_Convert_ToPDF()
     {
-        pdfResult = await arrayToAny!.ConvertArrayToPDF(arrToTest);
+        pdfResult =Convert.FromBase64String( await arrayToAny!.ConvertArrayToPDF(arrToTest));
         //await File.WriteAllBytesAsync(@"D:\test.pdf", pdfResult);
         return;
     }
