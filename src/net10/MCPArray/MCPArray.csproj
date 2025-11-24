@@ -21,14 +21,14 @@
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>MCPArray2Any</PackageId>
-    <PackageVersion>10.2025.1124.507</PackageVersion>
+    <PackageVersion>10.2025.1124.556</PackageVersion>
     <PackageTags>AI; MCP; server; stdio;word;excel;html;csv;pdf</PackageTags>
     <Description>An MCP server that transforms json array to pdf, excel, word...</Description>
   </PropertyGroup>
 
   <!-- Include additional files for browsing the MCP server. -->
   <ItemGroup>
-    <None Include=".mcp\server.json" Pack="true" PackagePath="/.mcp/" />
+    <None Include=".mcp/server.json" Pack="true" PackagePath="/.mcp/" />
     <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 	<ItemGroup>

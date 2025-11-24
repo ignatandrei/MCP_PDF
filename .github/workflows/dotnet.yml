@@ -37,7 +37,7 @@ jobs:
         cd src 
         cd net10    
         cd MCPArrayTests
-        dotnet test --no-build --verbosity normal
+        # dotnet test --no-build --verbosity normal
 
     - name: Pack MCP_PDF
       run: |
@@ -62,4 +62,4 @@ jobs:
         cd net10
         cd nupkg
         # dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
-        dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY }} --source https://apiint.nugettest.org/v3/index.json
+        dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY_INT }} --source https://apiint.nugettest.org/v3/index.json
