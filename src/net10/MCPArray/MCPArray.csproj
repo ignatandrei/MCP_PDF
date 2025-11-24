@@ -20,10 +20,10 @@
 
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageId>SampleMcpServer</PackageId>
+    <PackageId>MCPArray2Any</PackageId>
     <PackageVersion>10.2025.1124.331</PackageVersion>
-    <PackageTags>AI; MCP; server; stdio</PackageTags>
-    <Description>An MCP server using the MCP C# SDK.</Description>
+    <PackageTags>AI; MCP; server; stdio;word;excel;html;csv;pdf</PackageTags>
+    <Description>An MCP server that transforms json array to pdf, excel, word...</Description>
   </PropertyGroup>
 
   <!-- Include additional files for browsing the MCP server. -->
