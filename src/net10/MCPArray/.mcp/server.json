@@ -14,7 +14,9 @@
       "packageArguments": [
         
       ],
-      "environmentVariables": []
+      "environmentVariables": [
+        "MCP_LOG_FILE": "C:\\MCP\\Logs\\MCP_PDF.log"
+      ]
     }
   ],
   "repository": {

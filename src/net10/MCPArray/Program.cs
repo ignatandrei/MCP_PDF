@@ -1,5 +1,5 @@
-
-using PuppeteerSharp;
+using Serilog;
+using Serilog.Events;
 
 var http = (args?.Length>0)? args[0]=="http":false;
 bool stdio = !http;
@@ -13,8 +13,27 @@ else
 {
     builder = WebApplication.CreateBuilder();
 }
- // Configure all logs to go to stderr (stdout is used for the MCP protocol messages).
- builder.Logging.AddConsole(o => o.LogToStandardErrorThreshold = LogLevel.Trace);
+// Configure all logs to go to stderr (stdout is used for the MCP protocol messages).
+//builder.Logging.AddConsole(o => o.LogToStandardErrorThreshold = LogLevel.Trace);
+var logFile = Environment.GetEnvironmentVariable("MCP_LOG_FILE");
+
+var config = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .MinimumLevel.Override("Microsoft.Playwright", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console(
+        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}",
+        standardErrorFromLevel: LogEventLevel.Verbose);
+if (!string.IsNullOrWhiteSpace(logFile)) {
+    config = config
+        .WriteTo.File(logFile,
+        rollingInterval: RollingInterval.Day,
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+    };
+
+Log.Logger = config.CreateLogger();
+
 
 var server = builder.Services
     .AddMcpServer();
