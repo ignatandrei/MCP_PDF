@@ -182,7 +182,10 @@ public class ArrayToAny : IAsyncDisposable
             var browserFetcher = new BrowserFetcher();
             browserFetcher.Browser = WhatBrowser;
             await browserFetcher.DownloadAsync();
-            await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Browser= WhatBrowser});
+            await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { 
+                Browser= WhatBrowser,
+                Args = new[] { "--no-sandbox", "--disable-setuid-sandbox" } // Disable sandboxing
+                });
             await using var page = await browser.NewPageAsync();
             await page.SetContentAsync(htmlContent);
             using var pdfStream = await page.PdfStreamAsync();
