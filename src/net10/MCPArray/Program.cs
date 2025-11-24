@@ -1,6 +1,6 @@
 
-var stdio = (args?.Length>0)? args[0]=="stdio":false;
-bool http = !stdio;
+var http = (args?.Length>0)? args[0]=="http":false;
+bool stdio = !http;
 IHostApplicationBuilder builder;
 if (stdio)
 {
@@ -14,7 +14,6 @@ else
  // Configure all logs to go to stderr (stdout is used for the MCP protocol messages).
  builder.Logging.AddConsole(o => o.LogToStandardErrorThreshold = LogLevel.Trace);
 
-// Add the MCP services: the transport to use (stdio) and the tools to register.
 var server = builder.Services
     .AddMcpServer();
 

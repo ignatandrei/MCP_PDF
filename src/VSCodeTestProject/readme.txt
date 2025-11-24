@@ -15,7 +15,9 @@ Please convert this json into pdf : [
 {"firstName":"John", "lastName":"Doe"},
 {"firstName":"Anna", "lastName":"Smith"},
 {"firstName":"Peter", "lastName":"Jones"}s
-] by saving to result.pdf in the current folder 
+] by saving to result.pdf in the current folder .
+
+Be sure to transform the save MCP result to a file and then convert the content of the file from base64 to byte .
 
 GitHub Copilot 3:
 

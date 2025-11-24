@@ -94,8 +94,8 @@ public class ArrayToAny : IAsyncDisposable
 
 
     [McpServerTool]
-    [Description("Generates an Excel from a json array serialized as string")]
-    public async Task<byte[]> ConvertArrayToExcel(string JsonDataArray)
+    [Description("Generates an Excel from a json array serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
+    public async Task<string> ConvertArrayToExcel(string JsonDataArray)
     {
         _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
         try
@@ -160,7 +160,7 @@ public class ArrayToAny : IAsyncDisposable
             var result = ms.ToArray();  
             _logger.LogInformation($"JSON array to excel conversion completed successfully. Excel length: {result.Length} characters");
 
-            return result;
+            return Convert.ToBase64String(result,Base64FormattingOptions.InsertLineBreaks);
 
         }
         catch (Exception ex)
@@ -170,8 +170,8 @@ public class ArrayToAny : IAsyncDisposable
         }
     }
     [McpServerTool]
-    [Description("Generates to pdf from a json array serialized as string")]
-    public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
+    [Description("Generates to pdf from a json array serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
+    public async Task<string> ConvertArrayToPDF(string JsonDataArray)
     {
         _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to PDF");
         try
@@ -194,7 +194,7 @@ public class ArrayToAny : IAsyncDisposable
             ms.Position = 0;
             var result = ms.ToArray();
             _logger.LogInformation($"JSON array to pdf conversion completed successfully. pdf length: {result.Length} characters");
-            return result;
+            return Convert.ToBase64String(result,Base64FormattingOptions.InsertLineBreaks);
         }
         catch (Exception ex)
         {
@@ -203,8 +203,8 @@ public class ArrayToAny : IAsyncDisposable
         }
     }
     [McpServerTool]
-    [Description("Generates to word from a json array serialized as string")]
-    public async Task<byte[]> ConvertArrayToWord(string JsonDataArray)
+    [Description("Generates to word from a json array serialized as string . The result is in  Base64. Save to a temporary file and convert later to byte array ")]
+    public async Task<string> ConvertArrayToWord(string JsonDataArray)
     {
         _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
         try
@@ -257,7 +257,7 @@ public class ArrayToAny : IAsyncDisposable
             var result = ms.ToArray();
             _logger.LogInformation($"JSON array to word conversion completed successfully. word length: {result.Length} characters");
 
-            return result;
+            return Convert.ToBase64String( result,Base64FormattingOptions.InsertLineBreaks);
 
         }
         catch (Exception ex)

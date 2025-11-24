@@ -2,14 +2,10 @@
   "servers": {
     "MCP_Array_Any": {
       "type": "stdio",
-      "command": "dotnet",
-      "args": [
-        "run",
-        "--project",
-        "../MCP_PDF/MCP_PDF.csproj"
-      ],
+      "command": "dnx",
+      "args": ["MCPArray2Any@10.2025.1124.656", "stdio"],
       "env": {
-        "logMCPFile": "D:\\mcp-pdf-.log",
+        
       }
     },
      "filesystem": {
