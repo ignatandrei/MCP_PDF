@@ -37,13 +37,16 @@ jobs:
     - name: Test
       run: |
         cd src 
-        cd MCP_PDF.Tests
+        cd net10
+        cd 
+        cd MCPArrayTests
         dotnet test --no-build --verbosity normal
 
     - name: Pack MCP_PDF
       run: |
         cd src
-        cd MCP_PDF        
+        cd net10
+        cd MCPArray       
         dotnet pack --configuration Release --output ../nupkg
 
     - name: Upload NuGet package artifact

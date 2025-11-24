@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MCPArray/MCPArray.csproj" />
+  <Project Path="MCPArrayTests/MCPArrayTests.csproj" Id="8243380f-d349-4392-9e89-b58cc318822b" />
+</Solution>
