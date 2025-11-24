@@ -62,4 +62,4 @@ jobs:
         cd net10
         cd nupkg
         # dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
-        dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY_INT }} --source https://apiint.nugettest.org/v3/index.json
+        dotnet nuget push "*.nupkg" --source https://apiint.nugettest.org/v3/index.json
