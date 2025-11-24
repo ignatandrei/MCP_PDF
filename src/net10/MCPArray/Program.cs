@@ -29,7 +29,7 @@ if (!string.IsNullOrWhiteSpace(logFile)) {
     config = config
         .WriteTo.File(logFile,
         rollingInterval: RollingInterval.Day,
-        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+        outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}");
     };
 
 Log.Logger = config.CreateLogger();
