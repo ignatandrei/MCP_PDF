@@ -22,23 +22,20 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.0.x
-    - name: Run update-to-net10.ps1
-      shell: pwsh
-      run: |
-        ./update-to-net10.ps1
     - name: Restore dependencies
       run: |
         cd src
+        cd net10
         dotnet restore
     - name: Build
       run: |
         cd src
+        cd net10
         dotnet build --no-restore
     - name: Test
       run: |
         cd src 
-        cd net10
-        cd 
+        cd net10    
         cd MCPArrayTests
         dotnet test --no-build --verbosity normal
 
