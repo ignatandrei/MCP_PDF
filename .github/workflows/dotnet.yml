@@ -39,7 +39,7 @@ jobs:
         cd src 
         cd net10    
         cd MCPArrayTests
-        # dotnet test --no-build --verbosity normal
+        dotnet test --no-build --verbosity normal
 
     - name: Pack MCP_PDF
       run: |
