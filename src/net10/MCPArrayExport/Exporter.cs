@@ -3,7 +3,7 @@
 public class Exporter
 {
     static SupportedBrowser WhatBrowser= SupportedBrowser.Chromium;
-    public async Task<bool> DowloadBrowser()
+    public static async Task<bool> DownloadBrowser()
     {
         
         var browserFetcher = new BrowserFetcher();
