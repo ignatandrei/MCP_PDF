@@ -51,5 +51,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: MCP_PDF_nuget
-        path: src/nupkg/*.nupkg
+        path: src/net10/nupkg/*.nupkg
         retention-days: 1
