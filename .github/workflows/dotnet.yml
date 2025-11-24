@@ -56,9 +56,10 @@ jobs:
         
 
     - name: push to nuget
-      if: startsWith(github.ref, 'refs/tags/v') # This line ensures the step runs only if a tag version is present
+      #if: startsWith(github.ref, 'refs/tags/v') # This line ensures the step runs only if a tag version is present
       run: |
         cd src
         cd net10
         cd nupkg
-        dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+        # dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+        dotnet nuget push "*.nupkg" --api-key  ${{ secrets.NUGET_KEY }} --source https://apiint.nugettest.org/v3/index.json

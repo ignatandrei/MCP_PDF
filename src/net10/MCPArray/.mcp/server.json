@@ -1,13 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "description": "Array to Any - PDF, HTML, Excel, CSV, Word",
-  "name": "io.github.ignatandrei/MCP_PDF",
+  "name": "io.github.ignatandrei/MCPArray2Any",
   "version": "10.2025.1124.331",
   "packages": [
     {
       "registryType": "nuget",
       "identifier": "MCPArray2Any",
-      "version": "10.2025.1124.331",
+      "version": "10.2025.1124.507",
       "transport": {
         "type": "stdio"
       },

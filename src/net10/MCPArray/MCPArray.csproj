@@ -10,7 +10,7 @@
     <!-- Set up the NuGet package to be an MCP server -->
     <PackAsTool>true</PackAsTool>
     <PackageType>McpServer</PackageType>
-
+	 <Authors>IgnatAndrei</Authors>
     <!-- Set up the MCP server to be a self-contained application that does not rely on a shared framework -->
     <SelfContained>true</SelfContained>
     <PublishSelfContained>true</PublishSelfContained>
@@ -21,7 +21,7 @@
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>MCPArray2Any</PackageId>
-    <PackageVersion>10.2025.1124.331</PackageVersion>
+    <PackageVersion>10.2025.1124.507</PackageVersion>
     <PackageTags>AI; MCP; server; stdio;word;excel;html;csv;pdf</PackageTags>
     <Description>An MCP server that transforms json array to pdf, excel, word...</Description>
   </PropertyGroup>
