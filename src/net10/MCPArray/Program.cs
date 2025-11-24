@@ -1,4 +1,6 @@
 
+using PuppeteerSharp;
+
 var http = (args?.Length>0)? args[0]=="http":false;
 bool stdio = !http;
 IHostApplicationBuilder builder;
@@ -29,6 +31,9 @@ else
 }
 
 server.WithTools<MCP_PDF.Tools.ArrayToAny>();
+server.Services.AddTransient<Exporter>();
+server.Services.AddTransient<MCP_PDF.Tools.ArrayToAny>();
+
 IHost app;
 if (stdio)
 {
@@ -43,11 +48,8 @@ else
     app = web;
 }
 
-var WhatBrowser = SupportedBrowser.Chromium;
-var browserFetcher = new BrowserFetcher();
-browserFetcher.Browser = WhatBrowser;
 
-var t1= browserFetcher.DownloadAsync();
+var t1= Exporter.DownloadBrowser();
 var t2 = app.RunAsync();
 
 await Task.WhenAll(t1, t2);

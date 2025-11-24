@@ -1,9 +1,7 @@
 ﻿
-using MCPArrayExport;
-
 namespace MCP_PDF.Tools;
 
-public class ArrayToAny : IAsyncDisposable
+public class ArrayToAny 
 {
     private readonly Exporter _exporter;
     private readonly ILogger _logger;

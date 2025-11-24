@@ -2,6 +2,14 @@
 
 public class Exporter
 {
+    static SupportedBrowser WhatBrowser= SupportedBrowser.Chromium;
+    public async Task<bool> DowloadBrowser()
+    {
+        
+        var browserFetcher = new BrowserFetcher();
+        browserFetcher.Browser = WhatBrowser;
+        return await browserFetcher.DownloadAsync() != null;
+    }
     private readonly ILogger _logger;
 
     public Exporter(ILogger logger)
@@ -164,7 +172,6 @@ public class Exporter
         {
             var htmlContent = await ConvertArrayToHTML(JsonDataArray);
             using var ms = new MemoryStream();
-            var WhatBrowser = SupportedBrowser.Chromium;
             var browserFetcher = new BrowserFetcher();
             browserFetcher.Browser = WhatBrowser;
             await browserFetcher.DownloadAsync();
