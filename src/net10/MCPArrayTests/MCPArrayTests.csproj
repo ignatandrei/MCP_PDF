@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MCPArrayExport\MCPArrayExport.csproj" />
     <ProjectReference Include="..\MCPArray\MCPArray.csproj" />
   </ItemGroup>
 

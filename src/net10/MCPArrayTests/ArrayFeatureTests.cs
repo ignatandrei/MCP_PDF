@@ -1,4 +1,6 @@
 ﻿
+using MCPArrayExport;
+
 namespace MCPArrayTests;
 
 
@@ -99,27 +101,27 @@ NR,Name,Surname,Email
     string htmlResult = string.Empty;
     string csvResult = string.Empty;
     byte[] pdfResult = [];
-    ArrayToAny? arrayToAny;
-    private ILogger<ArrayToAny> _logger;
+    Exporter? arrayToAny;
+    private ILogger<Exporter> _logger;
 
     [OneTimeSetUp]
     public void Setup()
     {
         // Create a mock logger for testing
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        _logger = loggerFactory.CreateLogger<ArrayToAny>();
+        _logger = loggerFactory.CreateLogger<Exporter>();
         //_logger  = new NullLogger<ArrayToAny>();
-        arrayToAny = new ArrayToAny(_logger);
+        arrayToAny = new Exporter(_logger);
     }
 
-    [OneTimeTearDown]
-    public async Task TearDown()
-    {
-        if (arrayToAny != null)
-        {
-            await arrayToAny.DisposeAsync();
-        }
-    }
+    //[OneTimeTearDown]
+    //public async Task TearDown()
+    //{
+    //    if (arrayToAny != null)
+    //    {
+    //        await arrayToAny.DisposeAsync();
+    //    }
+    //}
 
     private Task Given_I_have_an_json_array_as_string(string arr)
     {
@@ -131,13 +133,13 @@ NR,Name,Surname,Email
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
         var logger = loggerFactory.CreateLogger<ArrayToAny>();
         //_logger  = new NullLogger<ArrayToAny>();
-        htmlResult = await (new ArrayToAny(logger)).ConvertArrayToHTML(arrToTest);
+        htmlResult = await (new Exporter(logger)).ConvertArrayToHTML(arrToTest);
         return;
     }
 
     private async Task When_I_Convert_ToPDF()
     {
-        pdfResult =Convert.FromBase64String( await arrayToAny!.ConvertArrayToPDF(arrToTest));
+        pdfResult =await arrayToAny!.ConvertArrayToPDF(arrToTest);
         //await File.WriteAllBytesAsync(@"D:\test.pdf", pdfResult);
         return;
     }
@@ -193,7 +195,7 @@ NR,Name,Surname,Email
     {
         if (arrayToAny != null)
         {
-            await arrayToAny.DisposeAsync();
+         //   await arrayToAny.DisposeAsync();
         }
         GC.SuppressFinalize(this);
     }

@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="MCPArray/MCPArray.csproj" />
+  <Project Path="MCPArrayExport/MCPArrayExport.csproj" Id="38d69b3b-fb88-42bf-853a-2d6f99c5004c" />
   <Project Path="MCPArrayTests/MCPArrayTests.csproj" Id="8243380f-d349-4392-9e89-b58cc318822b" />
 </Solution>

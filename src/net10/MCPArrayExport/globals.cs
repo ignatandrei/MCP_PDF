@@ -2,7 +2,11 @@
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
+global using DocumentFormat.OpenXml.Spreadsheet;
 global using DocumentFormat.OpenXml.Wordprocessing;
-global using ModelContextProtocol.Server;
+global using MCPArrayExport.Data;
 global using PuppeteerSharp;
 global using System.ComponentModel;
+global using System.Text.Json;
+global using WordProcess = DocumentFormat.OpenXml.Wordprocessing;
+global using DocumentFormat.OpenXml.Packaging;

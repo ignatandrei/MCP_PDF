@@ -40,19 +40,6 @@ else
     var web= (builder as WebApplicationBuilder)!.Build();
     web.MapOpenApi();
     web.MapOpenApi("/openapi/{documentName}.yaml");
-//    ArrayToAny arrayToAny = new(web.Services.GetRequiredService<ILogger<ArrayToAny>>());
-//    var arr = 
-//        """
-//[
-//{"Name":"Ignat","Surname":"Andrei","Email":"ignatandrei@yahoo.com"},
-//{"Name":"Adam","Surname":"Kowalski","Email":"adam.kowalski@notExisting.com"},
-//]
-//""";
-    //File.WriteAllBytes("D:\\a.xlsx", await arrayToAny.ConvertArrayToExcel(arr));
-    //File.WriteAllBytes("D:\\a.docx", await arrayToAny.ConvertArrayToWord(arr));
-    //File.WriteAllBytes("D:\\a.pdf", await arrayToAny.ConvertArrayToPDF(arr));
-
-
     app = web;
 }
 
