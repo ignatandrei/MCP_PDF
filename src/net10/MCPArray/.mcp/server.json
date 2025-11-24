@@ -15,7 +15,12 @@
         
       ],
       "environmentVariables": [
-        "MCP_LOG_FILE": "C:\\MCP\\Logs\\MCP_PDF.log"
+        {
+          "name": "MCP_LOG_FILE",
+          "description": "full path to log fdile",
+          "is_required": false,
+          "is_secret": false
+        }
       ]
     }
   ],
