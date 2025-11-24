@@ -64,7 +64,7 @@ jobs:
     #     token-service-url: https://int.nugettest.org/api/v2/token
         
     - name: push to nuget
-      #if: startsWith(github.ref, 'refs/tags/v') # This line ensures the step runs only if a tag version is present
+      if: startsWith(github.ref, 'refs/tags/v') # This line ensures the step runs only if a tag version is present
       run: |
         cd src
         cd net10

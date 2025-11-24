@@ -3,7 +3,7 @@
     "MCP_Array_Any": {
       "type": "stdio",
       "command": "dnx",
-      "args": ["MCPArray2Any@10.2025.1124.656", "stdio"],
+      "args": ["MCPArray2Any@10.2025.1124.656", "--yes"],
       "env": {
         
       }

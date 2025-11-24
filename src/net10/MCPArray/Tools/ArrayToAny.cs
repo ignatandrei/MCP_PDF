@@ -160,7 +160,7 @@ public class ArrayToAny : IAsyncDisposable
             var result = ms.ToArray();  
             _logger.LogInformation($"JSON array to excel conversion completed successfully. Excel length: {result.Length} characters");
 
-            return Convert.ToBase64String(result,Base64FormattingOptions.InsertLineBreaks);
+            return Convert.ToBase64String(result,Base64FormattingOptions.None);
 
         }
         catch (Exception ex)
@@ -194,7 +194,7 @@ public class ArrayToAny : IAsyncDisposable
             ms.Position = 0;
             var result = ms.ToArray();
             _logger.LogInformation($"JSON array to pdf conversion completed successfully. pdf length: {result.Length} characters");
-            return Convert.ToBase64String(result,Base64FormattingOptions.InsertLineBreaks);
+            return Convert.ToBase64String(result,Base64FormattingOptions.None);
         }
         catch (Exception ex)
         {
@@ -257,7 +257,7 @@ public class ArrayToAny : IAsyncDisposable
             var result = ms.ToArray();
             _logger.LogInformation($"JSON array to word conversion completed successfully. word length: {result.Length} characters");
 
-            return Convert.ToBase64String( result,Base64FormattingOptions.InsertLineBreaks);
+            return Convert.ToBase64String( result,Base64FormattingOptions.None);
 
         }
         catch (Exception ex)
