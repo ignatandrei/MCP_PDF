@@ -47,6 +47,7 @@ else
 {
     server = server.WithHttpTransport();
     builder.Services.AddOpenApi();
+    
 }
 
 server.WithTools<MCP_PDF.Tools.ArrayToAny>();
@@ -64,7 +65,9 @@ else
     var web= (builder as WebApplicationBuilder)!.Build();
     web.MapOpenApi();
     web.MapOpenApi("/openapi/{documentName}.yaml");
+    web.MapMcp();
     app = web;
+
 }
 
 
