@@ -1,7 +1,8 @@
 ﻿
 namespace MCP_PDF.Tools;
 
-public class ArrayToAny 
+[MCP2File.AddMCPExportToFile()]
+public partial class ArrayToAny 
 {
     private readonly Exporter _exporter;
     private readonly ILogger _logger;

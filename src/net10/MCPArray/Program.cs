@@ -33,7 +33,7 @@ if (!string.IsNullOrWhiteSpace(logFile)) {
     };
 
 Log.Logger = config.CreateLogger();
-
+builder.Services.AddSerilog();
 
 var server = builder.Services
     .AddMcpServer();
