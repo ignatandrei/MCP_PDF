@@ -34,7 +34,7 @@ if (!string.IsNullOrWhiteSpace(logFile)) {
     };
 
 Log.Logger = config.CreateLogger();
-builder.Services.AddSerilog();
+builder.Services.AddSerilog(Log.Logger);
 
 var server = builder.Services
     .AddMcpServer();
@@ -59,17 +59,22 @@ IHost app;
 if (stdio)
 {
     app = (builder as HostApplicationBuilder)!.Build();
-
 }
 else
 {
     var web= (builder as WebApplicationBuilder)!.Build();
+    web.UseSerilogRequestLogging();
     web.MapOpenApi();
     web.MapOpenApi("/openapi/{documentName}.yaml");
     web.MapMcp();
     web.UseOpenAPISwaggerUI();
     web.AddAll_ArrayToAny();
-    web.MapGet("/"  , () => "MCPArray is running. Navigate to /swagger to see the API documentation.");
+    var logProgram = web.Services.GetRequiredService<ILogger<Program>>();
+    logProgram.LogInformation("MCPArray is running. Navigate to /swagger to see the API documentation.");
+
+    var logExporter = web.Services.GetRequiredService<ILogger<Exporter>>();
+    logExporter.LogInformation("Exporter service is ready.");
+    //web.MapGet("/"  , () => "MCPArray is running. Navigate to /swagger to see the API documentation.");
     app = web;
 
 }

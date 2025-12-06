@@ -10,9 +10,9 @@ public class Exporter
         browserFetcher.Browser = WhatBrowser;
         return await browserFetcher.DownloadAsync() != null;
     }
-    private readonly ILogger _logger;
+    private readonly ILogger<Exporter> _logger;
 
-    public Exporter(ILogger logger)
+    public Exporter(ILogger<Exporter> logger)
     {
         _logger = logger;
     }
@@ -31,6 +31,21 @@ public class Exporter
             throw;
         }
     }
+    public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string JsonDataArray)
+    {
+        _logger.LogInformation("Converting JSON array to Markdown");
+        try
+        {
+            var result = await ConvertArrayToMarkdown(JsonDataArray);
+            _logger.LogInformation("JSON array to Markdown conversion completed successfully");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to convert JSON array to Markdown");
+            throw;
+        }
+    }
     public async Task<string> ConvertArrayToHTML(string JsonDataArray)
     {
         _logger.LogDebug("Starting array to HTML conversion");
@@ -44,6 +59,20 @@ public class Exporter
 
         _logger.LogDebug("HTML template rendered successfully. Length: {HtmlLength} characters", htmlContent.Length);
         return htmlContent.Trim();
+    }
+    private async Task<string> ConvertArrayToMarkdown(string JsonDataArray)
+    {
+        _logger.LogDebug("Starting array to markdown conversion");
+
+        ArrayData arrayData = ConvertFromJsonArray(JsonDataArray);
+        MarkdownTemplate arrayTemplate = new(arrayData);
+
+        // Generate HTML content from the template
+        _logger.LogDebug("Rendering Markdown template");
+        string content = await arrayTemplate.RenderAsync();
+
+        _logger.LogDebug("markdown template rendered successfully. Length: {HtmlLength} characters", content.Length);
+        return content.Trim();
     }
 
     private ArrayData ConvertFromJsonArray(string JsonDataArray)

@@ -131,7 +131,7 @@ NR,Name,Surname,Email
     private async Task When_I_Convert_ToHtml()
     {
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        var logger = loggerFactory.CreateLogger<ArrayToAny>();
+        var logger = loggerFactory.CreateLogger<Exporter>();
         //_logger  = new NullLogger<ArrayToAny>();
         htmlResult = await (new Exporter(logger)).ConvertArrayToHTML(arrToTest);
         return;

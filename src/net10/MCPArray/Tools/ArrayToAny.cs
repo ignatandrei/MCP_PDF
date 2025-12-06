@@ -3,13 +3,12 @@ namespace MCP_PDF.Tools;
 
 [MCP2File.AddMCPExportToFile()]
 [MCP2OpenAPI.AddMCP2OpenApi]
-
 public partial class ArrayToAny 
 {
     private readonly Exporter _exporter;
-    private readonly ILogger _logger;
+    private readonly ILogger<ArrayToAny> _logger;
 
-    public ArrayToAny(Exporter exporter, ILogger logger)
+    public ArrayToAny(Exporter exporter, ILogger<ArrayToAny> logger)
     {
         this._exporter = exporter;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -22,7 +21,17 @@ public partial class ArrayToAny
         return await _exporter.ConvertJsonArrayToHTML(JsonDataArray);
     }
 
-
+    /// <summary>
+    /// uncomment this on demo
+    /// </summary>
+    /// <param name="JsonDataArray"></param>
+    /// <returns></returns>
+    //[McpServerTool]
+    //[Description("Generates a markdown from a json array serialized as string")]
+    //public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string JsonDataArray)
+    //{
+    //    return await _exporter.ConvertJsonArrayToMarkdown(JsonDataArray);
+    //}
 
 
     [McpServerTool]
