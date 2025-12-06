@@ -5,4 +5,5 @@ global using Microsoft.Extensions.Logging;
 global using ModelContextProtocol.Server;
 global using System.ComponentModel;
 global using MCPArrayExport;
-
+global using OpenAPISwaggerUI;
+global using MCP_PDF.Tools;

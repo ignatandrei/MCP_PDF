@@ -21,7 +21,7 @@
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>MCPArray2Any</PackageId>
-    <PackageVersion>10.2025.1205.1800</PackageVersion>
+    <PackageVersion>10.2025.1206.1538</PackageVersion>
     <PackageTags>AI; MCP; server; stdio;http;word;excel;html;csv;pdf</PackageTags>
     <Description>An MCP server that transforms json array to pdf, excel, word...</Description>
   </PropertyGroup>
@@ -39,6 +39,9 @@
     <PackageReference Include="ModelContextProtocol" Version="0.4.0-preview.3" />
     <PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.4.0-preview.3" />
     <PackageReference Include="RSCG_MCP2File" Version="9.2025.1202.1952"  />
+	  <PackageReference Include="RSCG_MCP2OpenAPI" Version="9.2025.1202.1952"  />
+	  <PackageReference Include="OpenAPISwaggerUI" Version="9.2024.1215.2209" />
+
 	  <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
 	  <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
 	  <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
