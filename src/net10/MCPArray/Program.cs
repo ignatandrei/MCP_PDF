@@ -2,7 +2,7 @@ using Serilog;
 using Serilog.Events;
 
 var http = (args?.Length>0)? args[0]=="http":false;
-http = true;
+//http = true;
 bool stdio = !http;
 IHostApplicationBuilder builder;
 if (stdio)
