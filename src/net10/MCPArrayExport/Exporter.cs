@@ -174,10 +174,12 @@ public class Exporter
             using var ms = new MemoryStream();
             var browserFetcher = new BrowserFetcher();
             browserFetcher.Browser = WhatBrowser;
-            await browserFetcher.DownloadAsync();
+            var b= await browserFetcher.DownloadAsync();            
             await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Browser = WhatBrowser,
+                Headless = true,
+                ExecutablePath = b.GetExecutablePath(),
                 Args = new[] { "--no-sandbox", "--disable-setuid-sandbox" } // Disable sandboxing
             });
             await using var page = await browser.NewPageAsync();
