@@ -2,6 +2,7 @@ using Serilog;
 using Serilog.Events;
 
 var http = (args?.Length>0)? args[0]=="http":false;
+http = true;
 bool stdio = !http;
 IHostApplicationBuilder builder;
 if (stdio)
@@ -50,9 +51,9 @@ else
     
 }
 
-server.WithTools<MCP_PDF.Tools.ArrayToAny>();
+server.WithTools<ArrayToAny>();
 server.Services.AddTransient<Exporter>();
-server.Services.AddTransient<MCP_PDF.Tools.ArrayToAny>();
+server.Services.AddTransient<ArrayToAny>();
 
 IHost app;
 if (stdio)
@@ -66,6 +67,9 @@ else
     web.MapOpenApi();
     web.MapOpenApi("/openapi/{documentName}.yaml");
     web.MapMcp();
+    web.UseOpenAPISwaggerUI();
+    web.AddAll_ArrayToAny();
+    web.MapGet("/"  , () => "MCPArray is running. Navigate to /swagger to see the API documentation.");
     app = web;
 
 }
