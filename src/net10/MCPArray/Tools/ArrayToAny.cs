@@ -22,7 +22,7 @@ public partial class ArrayToAny
     }
 
     /// <summary>
-    /// uncomment this on demo
+    /// export to markdown
     /// </summary>
     /// <param name="JsonDataArray"></param>
     /// <returns></returns>
