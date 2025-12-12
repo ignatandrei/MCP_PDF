@@ -1,4 +1,10 @@
-﻿namespace MCPArrayExport;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using MCPArrayExport.Data;
+using System.Linq;
+using ToonTokenizer;
+using ToonTokenizer.Ast;
+
+namespace MCPArrayExport;
 
 public class Exporter
 {
@@ -50,7 +56,7 @@ public class Exporter
     {
         _logger.LogDebug("Starting array to HTML conversion");
 
-        ArrayData arrayData = ConvertFromJsonArray(JsonDataArray);
+        ArrayData arrayData = Convert(JsonDataArray);
         ArrayTemplate arrayTemplate = new(arrayData);
 
         // Generate HTML content from the template
@@ -64,7 +70,7 @@ public class Exporter
     {
         _logger.LogDebug("Starting array to markdown conversion");
 
-        ArrayData arrayData = ConvertFromJsonArray(JsonDataArray);
+        ArrayData arrayData = Convert(JsonDataArray);
         MarkdownTemplate arrayTemplate = new(arrayData);
 
         // Generate HTML content from the template
@@ -73,6 +79,63 @@ public class Exporter
 
         _logger.LogDebug("markdown template rendered successfully. Length: {HtmlLength} characters", content.Length);
         return content.Trim();
+    }
+    private ArrayData Convert(string JsonDataArray)
+    {
+        if((JsonDataArray?.Length??0) <2)
+        {
+            _logger.LogError("Provided JSON data is too short to be valid.");
+            throw new ArgumentException("Provided JSON data is too short to be valid.");
+        }
+        var firstChar = JsonDataArray.TrimStart()[0];
+        if (firstChar == '[')
+        {
+            return ConvertFromJsonArray(JsonDataArray);
+        }
+        //try toon
+        try
+        {
+            return ConvertFromToonString(JsonDataArray);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while trying to convert data to toon .");
+            throw;
+        }
+        _logger.LogError("Unsupported JSON/TOON data format. ");
+        throw new ArgumentException("Unsupported JSON/TOON data format.");
+        
+    }
+
+    private ArrayData ConvertFromToonString(string source)
+    {
+        var result = Toon.Parse(source);
+        if (!result.IsSuccess)
+        {
+            throw new ArgumentException(result.Errors[0].ToString());
+        }
+        var nrProps = result.Document.Properties.Count;
+        if(nrProps != 1)
+        {
+            throw new ArgumentException("Too many root properties in TOON data. Expected a single array property.");
+        }
+
+        var firstProp = result.Document.Properties[0];
+        var val = firstProp.Value;
+        if(val is not TableArrayNode table)
+        {
+            throw new ArgumentException("value of root must be a table array ");
+        }
+
+        var properties = table.Schema.ToArray();
+        var dictReverseProps = table.Schema.Select((nr, it) => (nr, it)).ToDictionary();
+        var firstRpw = table.Rows[0];
+        var values = table.Rows
+            .Select(it => new ElementToon(it.ToArray(), dictReverseProps)).ToArray();
+
+        ArrayData arrayData = new ArrayDataToon(properties, values);
+        arrayData.Init();
+        return arrayData;
     }
 
     private ArrayData ConvertFromJsonArray(string JsonDataArray)
@@ -118,7 +181,8 @@ public class Exporter
                     firstItemProperties.Count, firstItemProperties);
             }
         }
-        ArrayData arrayData = new(firstItemProperties.ToArray(), jsonArray.EnumerateArray().ToArray());
+        ArrayData arrayData = new ArrayDataJson(firstItemProperties.ToArray(), jsonArray.EnumerateArray().ToArray());
+        arrayData.Init();
         return arrayData;
     }
 
@@ -127,7 +191,7 @@ public class Exporter
         _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
         try
         {
-            var data = ConvertFromJsonArray(JsonDataArray);
+            var data = Convert(JsonDataArray);
             var ms = new MemoryStream();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(ms, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
@@ -234,7 +298,7 @@ public class Exporter
         _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
         try
         {
-            var data = ConvertFromJsonArray(JsonDataArray);
+            var data = Convert(JsonDataArray);
             // Convert HTML to PDF using the shared PDF generator
             //Excel2007File template = new(data);
             //var result = await template.RenderAsync();
@@ -298,7 +362,7 @@ public class Exporter
         _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
         try
         {
-            var data = ConvertFromJsonArray(JsonDataArray);
+            var data = Convert(JsonDataArray);
             // Convert HTML to PDF using the shared PDF generator
             ArrayCSVTemplate arrayCSVTemplate = new(data);
             var result = await arrayCSVTemplate.RenderAsync();
