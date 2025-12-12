@@ -19,6 +19,7 @@
 		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.4.0-preview.3" />
 		<PackageReference Include="PuppeteerSharp" Version="20.2.4" />
 		<PackageReference Include="RazorBlade" Version="0.10.0" ExcludeAssets="compile;runtime" PrivateAssets="all" />
+		<PackageReference Include="ToonTokenizer" Version="1.0.0.35" />
 
 
 

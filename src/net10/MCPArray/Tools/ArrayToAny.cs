@@ -15,7 +15,7 @@ public partial class ArrayToAny
     }
 
     [McpServerTool]
-    [Description("Generates a html from a json array serialized as string")]
+    [Description("Generates a html from a json array / toon data serialized as string")]
     public async Task<string> ConvertJsonArrayToHTML([Description("array serialized  as json")] string JsonDataArray)
     {
         return await _exporter.ConvertJsonArrayToHTML(JsonDataArray);
@@ -27,7 +27,7 @@ public partial class ArrayToAny
     /// <param name="JsonDataArray"></param>
     /// <returns></returns>
     [McpServerTool]
-    [Description("Generates a markdown from a json array serialized as string")]
+    [Description("Generates a markdown from a json array / toon data serialized as string")]
     public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string JsonDataArray)
     {
         return await _exporter.ConvertJsonArrayToMarkdown(JsonDataArray);
@@ -35,7 +35,7 @@ public partial class ArrayToAny
 
 
     [McpServerTool]
-    [Description("Generates an Excel from a json array serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
+    [Description("Generates an Excel from a json array  / toon data serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
     public async Task<byte[]> ConvertArrayToExcel(string JsonDataArray)
     {
         var result = await _exporter.ConvertArrayToExcel(JsonDataArray);
@@ -45,7 +45,7 @@ public partial class ArrayToAny
 
     }
     [McpServerTool]
-    [Description("Generates to pdf from a json array serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
+    [Description("Generates to pdf from a json array / toon data serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
     public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
     {
         var result = await _exporter.ConvertArrayToPDF(JsonDataArray);
@@ -54,18 +54,18 @@ public partial class ArrayToAny
     }
 
     [McpServerTool]
-    [Description("Generates to word from a json array serialized as string . The result is in  Base64. Save to a temporary file and convert later to byte array ")]
+    [Description("Generates to word from a json array / toon data serialized as string . The result is in  Base64. Save to a temporary file and convert later to byte array ")]
     public async Task<byte[]> ConvertArrayToWord(string JsonDataArray)
 
     {
-        var result = await _exporter.ConvertArrayToPDF(JsonDataArray);
+        var result = await _exporter.ConvertArrayToWord(JsonDataArray);
         _logger.LogInformation($"JSON array to word conversion completed successfully. word length: {result.Length} characters");
         return result;
 
     }
 
     [McpServerTool]
-    [Description("Generates a csv from a json array serialized as string")]
+    [Description("Generates a csv from a json array / toon data serialized as string")]
     public async Task<string> ConvertArrayToCSV(string JsonDataArray)
     {
         var result = await _exporter.ConvertArrayToCSV(JsonDataArray);

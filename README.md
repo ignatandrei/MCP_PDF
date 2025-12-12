@@ -84,3 +84,13 @@ Please fetch data from
 https://jsonplaceholder.typicode.com/posts
 
 and save to posts.pdf in the current folder
+
+
+Prompt 4:
+
+Please convert this toon into csv
+
+users[2]{Name,Surname,Email}:
+Ignat,Andrei,ignatandrei@yahoo.com
+Adam,Kowalski,adam.kowalski@notExisting.com
+

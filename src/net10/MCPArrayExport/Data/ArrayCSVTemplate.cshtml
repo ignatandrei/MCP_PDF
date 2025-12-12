@@ -14,27 +14,10 @@
     string row = (i + 1) + "," +
                 string.Join(",", Model
                     .Properties
-                    .Select(it => GetJsonValue(jsonObject.GetProperty(it)))
+                    .Select(it => jsonObject.GetJsonValue(jsonObject.GetProperty(it)))
                 );
 <text>@row
 </text>
 
 }
 
-@functions{
-    private object? GetJsonValue(JsonElement element)
-    {
-        var valueKind = element.ValueKind;
-        return valueKind switch
-        {
-            JsonValueKind.String => element.GetString(),
-            JsonValueKind.Number => element.GetDouble(),
-            JsonValueKind.True => true,
-            JsonValueKind.False => false,
-            JsonValueKind.Null => null,
-            JsonValueKind.Array => "not handled array",
-            JsonValueKind.Object => "not handled object",
-            _ => "not handled " + valueKind.ToString()
-        };
-    }
-}
