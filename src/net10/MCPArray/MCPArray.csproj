@@ -21,9 +21,9 @@
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>MCPArray2Any</PackageId>
-    <PackageVersion>10.2025.1206.1802</PackageVersion>
+    <PackageVersion>10.2025.1212.1802</PackageVersion>
     <PackageTags>AI; MCP; server; stdio;http;word;excel;html;csv;pdf</PackageTags>
-    <Description>An MCP server that transforms json array to pdf, excel, word...</Description>
+    <Description>An MCP server that transforms json array/ toon data to pdf, excel, word...</Description>
 	<PackageLicenseFile>LICENSE</PackageLicenseFile>
 
   </PropertyGroup>
@@ -31,7 +31,7 @@
   <!-- Include additional files for browsing the MCP server. -->
   <ItemGroup>
     <None Include=".mcp/server.json" Pack="true" PackagePath="/.mcp/" />
-    <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="../../../README.md" Pack="true" PackagePath="/" />
 	<None Include="../../../LICENSE" Pack="true" PackagePath="/" />
   </ItemGroup>
 	
@@ -41,8 +41,8 @@
 	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="ModelContextProtocol" Version="0.4.0-preview.3" />
     <PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.4.0-preview.3" />
-    <PackageReference Include="RSCG_MCP2File" Version="9.2025.1202.1952" />
-	  <PackageReference Include="RSCG_MCP2OpenAPI" Version="9.2025.1202.1952" />
+    <PackageReference Include="RSCG_MCP2File" Version="10.2025.1212.1953" />
+	  <PackageReference Include="RSCG_MCP2OpenAPI" Version="9.2025.1208.1952" />
 	  <PackageReference Include="OpenAPISwaggerUI" Version="9.2024.1215.2209" />
 	  <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
 

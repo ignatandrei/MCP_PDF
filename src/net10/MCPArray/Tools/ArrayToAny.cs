@@ -35,7 +35,7 @@ public partial class ArrayToAny
 
 
     [McpServerTool]
-    [Description("Generates an Excel from a json array serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
+    [Description("Generates an Excel from a json array  / toon data serialized as string. The result is in  Base64 .Save to a temporary file and convert later to byte array ")]
     public async Task<byte[]> ConvertArrayToExcel(string JsonDataArray)
     {
         var result = await _exporter.ConvertArrayToExcel(JsonDataArray);
@@ -58,7 +58,7 @@ public partial class ArrayToAny
     public async Task<byte[]> ConvertArrayToWord(string JsonDataArray)
 
     {
-        var result = await _exporter.ConvertArrayToPDF(JsonDataArray);
+        var result = await _exporter.ConvertArrayToWord(JsonDataArray);
         _logger.LogInformation($"JSON array to word conversion completed successfully. word length: {result.Length} characters");
         return result;
 

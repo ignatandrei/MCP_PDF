@@ -32,7 +32,7 @@ internal record ElementToon(AstNode[] nodes, Dictionary<string,int> dictReverseP
         return nodes[index];
         //return nodes.FirstOrDefault(it=>it.GetPropertyNode(ParseResult!.Document!)!.Key == PropertyName);
     }
-    override public object? GetJsonValue(object Element)
+    override public object? GetJsonValue(object? Element)
     {
         if (Element is not AstNode node)
         {
