@@ -24,12 +24,15 @@
     <PackageVersion>10.2025.1206.1802</PackageVersion>
     <PackageTags>AI; MCP; server; stdio;http;word;excel;html;csv;pdf</PackageTags>
     <Description>An MCP server that transforms json array to pdf, excel, word...</Description>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+
   </PropertyGroup>
 
   <!-- Include additional files for browsing the MCP server. -->
   <ItemGroup>
     <None Include=".mcp/server.json" Pack="true" PackagePath="/.mcp/" />
     <None Include="README.md" Pack="true" PackagePath="/" />
+	<None Include="../../../LICENSE" Pack="true" PackagePath="/" />
   </ItemGroup>
 	
   <ItemGroup>

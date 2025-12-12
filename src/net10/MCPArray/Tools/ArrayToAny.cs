@@ -22,16 +22,16 @@ public partial class ArrayToAny
     }
 
     /// <summary>
-    /// uncomment this on demo
+    /// export to markdown
     /// </summary>
     /// <param name="JsonDataArray"></param>
     /// <returns></returns>
-    //[McpServerTool]
-    //[Description("Generates a markdown from a json array serialized as string")]
-    //public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string JsonDataArray)
-    //{
-    //    return await _exporter.ConvertJsonArrayToMarkdown(JsonDataArray);
-    //}
+    [McpServerTool]
+    [Description("Generates a markdown from a json array serialized as string")]
+    public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string JsonDataArray)
+    {
+        return await _exporter.ConvertJsonArrayToMarkdown(JsonDataArray);
+    }
 
 
     [McpServerTool]
