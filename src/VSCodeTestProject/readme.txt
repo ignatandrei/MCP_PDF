@@ -27,3 +27,8 @@ Please fetch data from
 https://jsonplaceholder.typicode.com/posts
 
 and save to posts.pdf in the current folder
+
+GitHub Copilot 3:
+
+Toon :  person[3]{firstName,lastName}:\n\rJohn,Doe\n\rAAnna,Smith\n\rAPeter,Jones\n\r
+Also works in swagger
