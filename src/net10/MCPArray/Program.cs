@@ -2,7 +2,7 @@ using Serilog;
 using Serilog.Events;
 
 var http = (args?.Length>0)? args[0]=="http":false;
-//http = true;
+http = true;
 bool stdio = !http;
 IHostApplicationBuilder builder;
 if (stdio)
@@ -22,10 +22,13 @@ var config = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .MinimumLevel.Override("Microsoft.Playwright", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .WriteTo.Console(
+    .Enrich.FromLogContext();
+if(http)
+    config=config.WriteTo.Console(
         outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}",
         standardErrorFromLevel: LogEventLevel.Verbose);
+
+
 if (!string.IsNullOrWhiteSpace(logFile)) {
     config = config
         .WriteTo.File(logFile,

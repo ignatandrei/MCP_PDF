@@ -80,6 +80,34 @@ public class Exporter
         _logger.LogDebug("markdown template rendered successfully. Length: {HtmlLength} characters", content.Length);
         return content.Trim();
     }
+    public StringRepresentationType InferFrom(string? jsonDataArray)
+    {
+        if((jsonDataArray?.Trim()?.Length??0) <2)
+        {
+            _logger.LogError("Provided JSON data is too short to be valid.");
+            throw new ArgumentException("Provided JSON data is too short to be valid.");
+        }
+        jsonDataArray = jsonDataArray!.Trim();
+        var firstChar = jsonDataArray![0];
+        int index= 1;
+        char nextChar=' ';
+        while (index < jsonDataArray.Length) {
+            nextChar = jsonDataArray![index];
+            if (!char.IsWhiteSpace(nextChar))
+            {
+                break;
+            }
+            index++;
+        }
+
+
+        if (firstChar == '[' && nextChar == '{')
+        {
+            return StringRepresentationType.JSON;
+        }
+        return StringRepresentationType.Toon;
+        
+    }
     private ArrayData Convert(string JsonDataArray)
     {
         if((JsonDataArray?.Length??0) <2)
@@ -87,23 +115,19 @@ public class Exporter
             _logger.LogError("Provided JSON data is too short to be valid.");
             throw new ArgumentException("Provided JSON data is too short to be valid.");
         }
-        var firstChar = JsonDataArray.TrimStart()[0];
-        if (firstChar == '[')
+        var typeText = InferFrom(JsonDataArray);
+        switch (typeText)
         {
-            return ConvertFromJsonArray(JsonDataArray);
+            case StringRepresentationType.JSON:
+                _logger.LogInformation("Inferred data format: JSON");
+                return ConvertFromJsonArray(JsonDataArray!);
+            case StringRepresentationType.Toon:
+                _logger.LogInformation("Inferred data format: TOON");
+                return ConvertFromToonString(JsonDataArray!);
+            default:
+                _logger.LogError("Unsupported data format inferred: {DataFormat}", typeText);
+                throw new ArgumentException("Unsupported data format inferred.");
         }
-        //try toon
-        try
-        {
-            return ConvertFromToonString(JsonDataArray);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error while trying to convert data to toon .");
-            throw;
-        }
-        _logger.LogError("Unsupported JSON/TOON data format. ");
-        throw new ArgumentException("Unsupported JSON/TOON data format.");
         
     }
 
