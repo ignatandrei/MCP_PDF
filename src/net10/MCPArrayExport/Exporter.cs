@@ -1,9 +1,4 @@
-﻿using DocumentFormat.OpenXml.Bibliography;
-using MCPArrayExport.Data;
-using System.Linq;
-using ToonTokenizer;
-using ToonTokenizer.Ast;
-
+﻿
 namespace MCPArrayExport;
 
 public class Exporter
@@ -22,27 +17,13 @@ public class Exporter
     {
         _logger = logger;
     }
-    public async Task<string> ConvertJsonArrayToHTML([Description("array serialized  as json")] string JsonDataArray)
-    {
-        _logger.LogInformation("Converting JSON array to HTML");
-        try
-        {
-            var result = await ConvertArrayToHTML(JsonDataArray);
-            _logger.LogInformation("JSON array to HTML conversion completed successfully");
-            return result;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to convert JSON array to HTML");
-            throw;
-        }
-    }
-    public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string JsonDataArray)
+    
+    public async Task<string> ConvertJsonArrayToMarkdown([Description("array serialized  as json")] string DataArray)
     {
         _logger.LogInformation("Converting JSON array to Markdown");
         try
         {
-            var result = await ConvertArrayToMarkdown(JsonDataArray);
+            var result = await ConvertArrayToMarkdown(DataArray);
             _logger.LogInformation("JSON array to Markdown conversion completed successfully");
             return result;
         }
@@ -52,11 +33,11 @@ public class Exporter
             throw;
         }
     }
-    public async Task<string> ConvertArrayToHTML(string JsonDataArray)
+    public async Task<string> ConvertArrayToHTML(string DataArray)
     {
         _logger.LogDebug("Starting array to HTML conversion");
 
-        ArrayData arrayData = Convert(JsonDataArray);
+        ArrayData arrayData = Convert(DataArray);
         ArrayTemplate arrayTemplate = new(arrayData);
 
         // Generate HTML content from the template
@@ -66,11 +47,11 @@ public class Exporter
         _logger.LogDebug("HTML template rendered successfully. Length: {HtmlLength} characters", htmlContent.Length);
         return htmlContent.Trim();
     }
-    private async Task<string> ConvertArrayToMarkdown(string JsonDataArray)
+    private async Task<string> ConvertArrayToMarkdown(string DataArray)
     {
         _logger.LogDebug("Starting array to markdown conversion");
 
-        ArrayData arrayData = Convert(JsonDataArray);
+        ArrayData arrayData = Convert(DataArray);
         MarkdownTemplate arrayTemplate = new(arrayData);
 
         // Generate HTML content from the template
@@ -80,19 +61,19 @@ public class Exporter
         _logger.LogDebug("markdown template rendered successfully. Length: {HtmlLength} characters", content.Length);
         return content.Trim();
     }
-    public StringRepresentationType InferFrom(string? jsonDataArray)
+    public StringRepresentationType InferFrom(string? DataArray)
     {
-        if((jsonDataArray?.Trim()?.Length??0) <2)
+        if((DataArray?.Trim()?.Length??0) <2)
         {
             _logger.LogError("Provided JSON data is too short to be valid.");
             throw new ArgumentException("Provided JSON data is too short to be valid.");
         }
-        jsonDataArray = jsonDataArray!.Trim();
-        var firstChar = jsonDataArray![0];
+        DataArray = DataArray!.Trim();
+        var firstChar = DataArray![0];
         int index= 1;
         char nextChar=' ';
-        while (index < jsonDataArray.Length) {
-            nextChar = jsonDataArray![index];
+        while (index < DataArray.Length) {
+            nextChar = DataArray![index];
             if (!char.IsWhiteSpace(nextChar))
             {
                 break;
@@ -108,22 +89,22 @@ public class Exporter
         return StringRepresentationType.Toon;
         
     }
-    private ArrayData Convert(string JsonDataArray)
+    private ArrayData Convert(string DataArray)
     {
-        if((JsonDataArray?.Length??0) <2)
+        if((DataArray?.Length??0) <2)
         {
             _logger.LogError("Provided JSON data is too short to be valid.");
             throw new ArgumentException("Provided JSON data is too short to be valid.");
         }
-        var typeText = InferFrom(JsonDataArray);
+        var typeText = InferFrom(DataArray);
         switch (typeText)
         {
             case StringRepresentationType.JSON:
                 _logger.LogInformation("Inferred data format: JSON");
-                return ConvertFromJsonArray(JsonDataArray!);
+                return ConvertFromJsonArray(DataArray!);
             case StringRepresentationType.Toon:
                 _logger.LogInformation("Inferred data format: TOON");
-                return ConvertFromToonString(JsonDataArray!);
+                return ConvertFromToonString(DataArray!);
             default:
                 _logger.LogError("Unsupported data format inferred: {DataFormat}", typeText);
                 throw new ArgumentException("Unsupported data format inferred.");
@@ -162,7 +143,7 @@ public class Exporter
         return arrayData;
     }
 
-    private ArrayData ConvertFromJsonArray(string JsonDataArray)
+    private ArrayData ConvertFromJsonArray(string DataArray)
     {
         _logger.LogDebug("Parsing JSON array data");
 
@@ -170,7 +151,7 @@ public class Exporter
         {
             AllowTrailingCommas = true,
         };
-        var jsonDocument = JsonDocument.Parse(JsonDataArray, options);
+        var jsonDocument = JsonDocument.Parse(DataArray, options);
         var jsonArray = jsonDocument.RootElement;
 
         List<string> firstItemProperties = [];
@@ -210,12 +191,12 @@ public class Exporter
         return arrayData;
     }
 
-    public async Task<byte[]> ConvertArrayToExcel(string JsonDataArray)
+    public async Task<byte[]> ConvertArrayToExcel(string DataArray)
     {
-        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
+        _logger.LogInformation($"Converting JSON array length {DataArray.Length} to CSV");
         try
         {
-            var data = Convert(JsonDataArray);
+            var data = Convert(DataArray);
             var ms = new MemoryStream();
             using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Create(ms, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
             {
@@ -282,12 +263,12 @@ public class Exporter
         }
     }
 
-    public async Task<byte[]> ConvertArrayToPDF(string JsonDataArray)
+    public async Task<byte[]> ConvertArrayToPDF(string DataArray)
     {
-        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to PDF");
+        _logger.LogInformation($"Converting JSON array length {DataArray.Length} to PDF");
         try
         {
-            var htmlContent = await ConvertArrayToHTML(JsonDataArray);
+            var htmlContent = await ConvertArrayToHTML(DataArray);
             using var ms = new MemoryStream();
             var browserFetcher = new BrowserFetcher();
             browserFetcher.Browser = WhatBrowser;
@@ -317,12 +298,12 @@ public class Exporter
     }
 
     
-    public async Task<byte[]> ConvertArrayToWord(string JsonDataArray)
+    public async Task<byte[]> ConvertArrayToWord(string DataArray)
     {
-        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
+        _logger.LogInformation($"Converting JSON array length {DataArray.Length} to CSV");
         try
         {
-            var data = Convert(JsonDataArray);
+            var data = Convert(DataArray);
             // Convert HTML to PDF using the shared PDF generator
             //Excel2007File template = new(data);
             //var result = await template.RenderAsync();
@@ -381,12 +362,12 @@ public class Exporter
     }
 
 
-    public async Task<string> ConvertArrayToCSV(string JsonDataArray)
+    public async Task<string> ConvertArrayToCSV(string DataArray)
     {
-        _logger.LogInformation($"Converting JSON array length {JsonDataArray.Length} to CSV");
+        _logger.LogInformation($"Converting JSON array length {DataArray.Length} to CSV");
         try
         {
-            var data = Convert(JsonDataArray);
+            var data = Convert(DataArray);
             // Convert HTML to PDF using the shared PDF generator
             ArrayCSVTemplate arrayCSVTemplate = new(data);
             var result = await arrayCSVTemplate.RenderAsync();

@@ -18,13 +18,13 @@ public partial class ArrayToAny
     [Description("Generates a html from a json array / toon data serialized as string")]
     public async Task<string> ConvertArrayToHTML([Description("array serialized  as json/ toon")] string DataArray)
     {
-        return await _exporter.ConvertJsonArrayToHTML(DataArray);
+        return await _exporter.ConvertArrayToHTML(DataArray);
     }
 
     /// <summary>
     /// export to markdown
     /// </summary>
-    /// <param name="JsonDataArray"></param>
+    /// <param name="DataArray"></param>
     /// <returns></returns>
     [McpServerTool]
     [Description("Generates a markdown from a json array / toon data serialized as string")]
